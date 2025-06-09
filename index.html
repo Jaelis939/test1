@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flashy Modern Website</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #00ffff;
+      --secondary: #ff00ff;
+      --dark: #121212;
+      --light: #ffffff;
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+      color: white;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      line-height: 1.6;
+    }
+    
+    @font-face {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      src: url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+    }
+    
+    h1, h2, h3 {
+      margin: 0.5em 0;
+      font-weight: 700;
+    }
+    
+    p {
+      line-height: 1.8;
+      font-weight: 400;
+    }
+    
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    /* Preloader */
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--dark);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+    
+    .preloader.fade-out {
+      opacity: 0;
+    }
+    
+    .loader {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Navigation */
+    nav {
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5em 3em;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transition: all 0.4s ease;
+    }
+    
+    nav.scrolled {
+      padding: 1em 3em;
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+    
+    .logo {
+      font-size: 1.8em;
+      font-weight: 700;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: var(--transition);
+    }
+    
+    .logo:hover {
+      transform: scale(1.05);
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2em;
+    }
+    
+    nav a {
+      color: var(--light);
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+      padding: 0.5em 0;
+    }
+    
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      transition: width 0.3s ease;
+    }
+    
+    nav a:hover::after {
+      width: 100%;
+    }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5em;
+      cursor: pointer;
+    }
+    
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 1em;
+      background: radial-gradient(circle, rgba(26,42,108,0.8), rgba(178,31,31,0.7), rgba(253,187,45,0.6)), 
+                  url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%);
+      z-index: 1;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+    
+    .hero h1 {
+      font-size: 4em;
+      margin-bottom: 0.5em;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeInDown 1s ease-out both;
+      text-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .hero p {
+      font-size: 1.5em;
+      max-width: 700px;
+      margin: 0 auto 2em;
+      animation: fadeInUp 1s ease-out 0.3s both;
+      opacity: 0.9;
+    }
+    
+    .btn {
+      margin-top: 2em;
+      padding: 1em 2.5em;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      color: var(--dark);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1em;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, var(--secondary), var(--primary));
+      z-index: -1;
+      opacity: 0;
+      transition: var(--transition);
+    }
+    
+    .btn:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      color: var(--light);
+    }
+    
+    .btn:hover::before {
+      opacity: 1;
+    }
+    
+    .btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+    
+    .scroll-down {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 2em;
+      animation: bounce 2s infinite;
+      cursor: pointer;
+      z-index: 2;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+      40% { transform: translateY(-20px) translateX(-50%); }
+      60% { transform: translateY(-10px) translateX(-50%); }
+    }
+    
+    @keyframes fadeInDown {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    @keyframes fadeInUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    /* Sections */
+    section {
+      padding: 8em 2em;
+      text-align: center;
+      position: relative;
+    }
+    
+    .section-title {
+      font-size: 3em;
+      margin-bottom: 1.5em;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+    
+    /* Features */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 3em;
+      margin-top: 3em;
+    }
+    
+    .feature-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 2.5em;
+      border-radius: 20px;
+      transition: var(--transition);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-15px);
+      background-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+    
+    .feature-icon {
+      font-size: 3em;
+      margin-bottom: 0.5em;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    /* Gallery */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5em;
+      margin-top: 3em;
+    }
+    
+    .gallery-item {
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      aspect-ratio: 16/9;
+    }
+    
+    .gallery-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .gallery-item:hover .gallery-img {
+      transform: scale(1.1);
+    }
+    
+    .gallery-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5em;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+    
+    .gallery-title {
+      color: white;
+      font-weight: 600;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    
+    .gallery-item:hover .gallery-title {
+      transform: translateY(0);
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2em;
+      justify-content: center;
+      margin-top: 3em;
+    }
+    
+    .testimonial {
+      background-color: rgba(255,255,255,0.05);
+      border-radius: 15px;
+      padding: 2.5em;
+      max-width: 350px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: var(--transition);
+    }
+    
+    .testimonial:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+    
+    .testimonial p {
+      font-style: italic;
+      position: relative;
+      margin-bottom: 1.5em;
+    }
+    
+    .testimonial p::before,
+    .testimonial p::after {
+      content: '"';
+      font-size: 2em;
+      color: var(--primary);
+      opacity: 0.5;
+      position: absolute;
+    }
+    
+    .testimonial p::before {
+      top: -15px;
+      left: -10px;
+    }
+    
+    .testimonial p::after {
+      bottom: -30px;
+      right: -10px;
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      margin-top: 1.5em;
+    }
+    
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+    }
+    
+    .author-info h4 {
+      color: var(--primary);
+      margin: 0;
+      text-align: left;
+    }
+    
+    .author-info p {
+      font-style: normal;
+      font-size: 0.9em;
+      opacity: 0.7;
+      margin: 0;
+    }
+    
+    /* Contact Form */
+    .contact-form {
+      background: rgba(0,0,0,0.4);
+      padding: 3em;
+      border-radius: 15px;
+      max-width: 600px;
+      margin: 3em auto 0;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .form-group {
+      margin-bottom: 1.5em;
+      text-align: left;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5em;
+      font-weight: 600;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 1em;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      color: white;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 10px rgba(0,255,255,0.3);
+    }
+    
+    textarea.form-control {
+      min-height: 150px;
+      resize: vertical;
+    }
+    
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3em;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: relative;
+    }
+    
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5em;
+      margin-bottom: 2em;
+    }
+    
+    .social-link {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      transition: var(--transition);
+    }
+    
+    .social-link:hover {
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      transform: translateY(-5px);
+    }
+    
+    .copyright {
+      opacity: 0.7;
+      font-size: 0.9em;
+    }
+    
+    .back-to-top {
+      position: absolute;
+      right: 30px;
+      bottom: 30px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: var(--transition);
+      opacity: 0;
+      visibility: hidden;
+    }
+    
+    .back-to-top.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .back-to-top:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    
+    /* Particles */
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero h1 {
+        font-size: 3em;
+      }
+      
+      .section-title {
+        font-size: 2.5em;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .nav-links {
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 80px);
+        background: rgba(0,0,0,0.95);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2em;
+        transition: all 0.5s ease;
+        z-index: 999;
+      }
+      
+      .nav-links.active {
+        left: 0;
+      }
+      
+      .hero h1 {
+        font-size: 2.5em;
+      }
+      
+      .hero p {
+        font-size: 1.2em;
+      }
+      
+      .section-title {
+        font-size: 2em;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
+      
+      .contact-form {
+        padding: 2em;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      nav {
+        padding: 1em;
+      }
+      
+      .hero h1 {
+        font-size: 2em;
+      }
+      
+      .hero p {
+        font-size: 1em;
+      }
+      
+      .btn {
+        padding: 0.8em 1.8em;
+      }
+      
+      section {
+        padding: 5em 1em;
+      }
+    }
+    
+    /* Animations */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+    
+    .animate-on-scroll.animated {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+  </style>
+</head>
+<body>
+  <!-- Preloader -->
+  <div class="preloader">
+    <div class="loader"></div>
+  </div>
+  
+  <!-- Navigation -->
+  <nav id="navbar">
+    <a href="#" class="logo">FlashyWeb</a>
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="#features">Features</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+  
+  <!-- Hero Section -->
+  <div class="hero">
+    <div id="particles-js"></div>
+    <div class="hero-content">
+      <h1>Welcome to FlashyWeb</h1>
+      <p>Experience a modern, vibrant, and responsive website design with cutting-edge effects and animations.</p>
+      <button class="btn" onclick="scrollToSection('features')">Explore Features</button>
+    </div>
+    <div class="scroll-down" onclick="scrollToSection('features')">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </div>
+  
+  <!-- Features Section -->
+  <section id="features">
+    <h2 class="section-title">Awesome Features</h2>
+    <div class="features">
+      <div class="feature-card animate-on-scroll">
+        <div class="feature-icon">
+          <i class="fas fa-bolt"></i>
+        </div>
+        <h3>⚡ Fast & Responsive</h3>
+        <p>Optimized for speed and adaptability on any device with lazy loading and performance enhancements.</p>
+      </div>
+      <div class="feature-card animate-on-scroll delay-1">
+        <div class="feature-icon">
+          <i class="fas fa-palette"></i>
+        </div>
+        <h3>🎨 Flashy Design</h3>
+        <p>Colorful gradients, animations, and modern UI elements that create an immersive experience.</p>
+      </div>
+      <div class="feature-card animate-on-scroll delay-2">
+        <div class="feature-icon">
+          <i class="fas fa-brain"></i>
+        </div>
+        <h3>🧠 Smart Interactions</h3>
+        <p>Built with advanced JavaScript for dynamic user experiences and smooth animations.</p>
+      </div>
+      <div class="feature-card animate-on-scroll delay-3">
+        <div class="feature-icon">
+          <i class="fas fa-lock"></i>
+        </div>
+        <h3>🔐 Secure Layout</h3>
+        <p>Modern security practices implemented to protect user data and ensure privacy.</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Gallery Section -->
+  <section id="gallery">
+    <h2 class="section-title">Gallery</h2>
+    <div class="gallery">
+      <div class="gallery-item animate-on-scroll">
+        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Gallery 1" class="gallery-img">
+        <div class="gallery-overlay">
+          <h3 class="gallery-title">Modern Design</h3>
+        </div>
+      </div>
+      <div class="gallery-item animate-on-scroll delay-1">
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Gallery 2" class="gallery-img">
+        <div class="gallery-overlay">
+          <h3 class="gallery-title">Creative Solutions</h3>
+        </div>
+      </div>
+      <div class="gallery-item animate-on-scroll delay-2">
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Gallery 3" class="gallery-img">
+        <div class="gallery-overlay">
+          <h3 class="gallery-title">Technology</h3>
+        </div>
+      </div>
+      <div class="gallery-item animate-on-scroll delay-3">
+        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Gallery 4" class="gallery-img">
+        <div class="gallery-overlay">
+          <h3 class="gallery-title">Innovation</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Testimonials Section -->
+  <section id="testimonials">
+    <h2 class="section-title">Testimonials</h2>
+    <div class="testimonials">
+      <div class="testimonial animate-on-scroll">
+        <p>"This website completely transformed our online presence. The animations and effects are breathtaking!"</p>
+        <div class="testimonial-author">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Alex" class="author-avatar">
+          <div class="author-info">
+            <h4>Alex Johnson</h4>
+            <p>CEO, TechSolutions</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial animate-on-scroll delay-1">
+        <p>"The attention to detail is incredible. Every interaction feels smooth and intentional."</p>
+        <div class="testimonial-author">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Jamie" class="author-avatar">
+          <div class="author-info">
+            <h4>Jamie Smith</h4>
+            <p>Marketing Director</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial animate-on-scroll delay-2">
+        <p>"We've seen a 40% increase in engagement since launching our new FlashyWeb site. Highly recommended!"</p>
+        <div class="testimonial-author">
+          <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Taylor" class="author-avatar">
+          <div class="author-info">
+            <h4>Taylor Wilson</h4>
+            <p>Product Manager</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Contact Section -->
+  <section id="contact">
+    <h2 class="section-title">Contact Us</h2>
+    <form class="contact-form" onsubmit="return validateForm()">
+      <div class="form-group animate-on-scroll">
+        <label for="name" class="form-label">Your Name</label>
+        <input type="text" id="name" class="form-control" placeholder="Enter your name" required>
+      </div>
+      <div class="form-group animate-on-scroll delay-1">
+        <label for="email" class="form-label">Your Email</label>
+        <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+      </div>
+      <div class="form-group animate-on-scroll delay-2">
+        <label for="message" class="form-label">Your Message</label>
+        <textarea id="message" class="form-control" rows="5" placeholder="Enter your message" required></textarea>
+      </div>
+      <button class="btn animate-on-scroll delay-3" type="submit">Send Message</button>
+    </form>
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="social-links">
+      <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+    <p class="copyright">&copy; 2025 FlashyWeb. All rights reserved.</p>
+    <a href="#" class="back-to-top" id="backToTop">
+      <i class="fas fa-arrow-up"></i>
+    </a>
+  </footer>
+  
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    // Preloader
+    window.addEventListener('load', function() {
+      const preloader = document.querySelector('.preloader');
+      preloader.classList.add('fade-out');
+      setTimeout(() => {
+        preloader.style.display = 'none';
+      }, 500);
+    });
+    
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+    
+    mobileMenuBtn.addEventListener('click', function() {
+      navLinks.classList.toggle('active');
+      this.innerHTML = navLinks.classList.contains('active') ? 
+        '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+    });
+    
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', function() {
+        navLinks.classList.remove('active');
+        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+      });
+    });
+    
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+      
+      // Back to top button
+      const backToTop = document.getElementById('backToTop');
+      if (window.scrollY > 300) {
+        backToTop.classList.add('active');
+      } else {
+        backToTop.classList.remove('active');
+      }
+    });
+    
+    // Smooth scrolling for all links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // Scroll to section function
+    function scrollToSection(id) {
+      const element = document.getElementById(id);
+      if (element) {
+        window.scrollTo({
+          top: element.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      }
+    }
+    
+    // Form validation
+    function validateForm() {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+      
+      if (!name || !email || !message) {
+        alert("Please fill out all fields!");
+        return false;
+      }
+      
+      // Simulate form submission
+      showNotification(`Thanks, ${name}! Your message has been sent. We'll get back to you soon.`);
+      document.querySelector('.contact-form').reset();
+      return false;
+    }
+    
+    // Notification function
+    function showNotification(message) {
+      const notification = document.createElement('div');
+      notification.className = 'notification';
+      notification.textContent = message;
+      notification.style.position = 'fixed';
+      notification.style.bottom = '20px';
+      notification.style.left = '50%';
+      notification.style.transform = 'translateX(-50%)';
+      notification.style.backgroundColor = '#00ffff';
+      notification.style.color = '#000';
+      notification.style.padding = '15px 30px';
+      notification.style.borderRadius = '50px';
+      notification.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+      notification.style.zIndex = '1000';
+      notification.style.animation = 'fadeInUp 0.5s ease-out';
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = 'fadeOutDown 0.5s ease-out';
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 500);
+      }, 3000);
+    }
+    
+    // Animate on scroll
+    function animateOnScroll() {
+      const elements = document.querySelectorAll('.animate-on-scroll');
+      
+      elements.forEach(element => {
+        const elementPosition = element.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.2;
+        
+        if (elementPosition < screenPosition) {
+          element.classList.add('animated');
+        }
+      });
+    }
+    
+    window.addEventListener('scroll', animateOnScroll);
+    animateOnScroll(); // Run once on page load
+    
+    // Particles.js configuration
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": "#ffffff"
+        },
+        "shape": {
+          "type": "circle",
+          "stroke": {
+            "width": 0,
+            "color": "#000000"
+          },
+          "polygon": {
+            "nb_sides": 5
+          }
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": false,
+          "anim": {
+            "enable": false,
+            "speed": 1,
+            "opacity_min": 0.1,
+            "sync": false
+          }
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+          "anim": {
+            "enable": false,
+            "speed": 40,
+            "size_min": 0.1,
+            "sync": false
+          }
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false,
+          "attract": {
+            "enable": false,
+            "rotateX": 600,
+            "rotateY": 1200
+          }
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "grab"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          },
+          "resize": true
+        },
+        "modes": {
+          "grab": {
+            "distance": 140,
+            "line_linked": {
+              "opacity": 1
+            }
+          },
+          "bubble": {
+            "distance": 400,
+            "size": 40,
+            "duration": 2,
+            "opacity": 8,
+            "speed": 3
+          },
+          "repulse": {
+            "distance": 200,
+            "duration": 0.4
+          },
+          "push": {
+            "particles_nb": 4
+          },
+          "remove": {
+            "particles_nb": 2
+          }
+        }
+      },
+      "retina_detect": true
+    });
+  </script>
+</body>
+</html>
